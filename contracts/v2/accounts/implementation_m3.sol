@@ -9,7 +9,7 @@ import { Variables } from "./variables.sol";
  */
 
 interface ConnectorsInterface {
-    function isConnectors(string[] calldata connectorNames) external view returns (bool, address[] memory);
+    function isConnectors(string memory connectorName) external view returns (bool, address, uint);
 }
 
 contract Constants is Variables {
@@ -34,14 +34,14 @@ contract InstaImplementationM1 is Constants {
         }
     }
 
-    event LogCast(
+    event LogCastAutomation(
         address indexed origin,
         address indexed sender,
         uint256 value,
-        string[] targetsNames,
-        address[] targets,
-        string[] eventNames,
-        bytes[] eventParams
+        string targetsName,
+        address target,
+        string eventName,
+        bytes eventParam
     );
 
     receive() external payable {}
@@ -74,43 +74,44 @@ contract InstaImplementationM1 is Constants {
     /**
      * @dev This is the main function, Where all the different functions are called
      * from Smart Account.
-     * @param _targetNames Array of Connector names.
-     * @param _datas Array of Calldata.
+     * @param _targetName Array of Connector names.
+     * @param _data Array of Calldata.
+     * @param _tokenForGas Token to pay gas in.
     */
-    function cast(
-        string[] calldata _targetNames,
-        bytes[] calldata _datas,
+    function castAutomation(
+        string memory _targetName,
+        bytes memory _data,
+        address _tokenForGas,
         address _origin
     )
     external
     payable 
-    returns (bytes32) // Dummy return to fix instaIndex buildWithCast function
-    {   
-        uint256 _length = _targetNames.length;
-        require(_auth[msg.sender] || msg.sender == instaIndex || msg.sender == address(this), "1: permission-denied");
-        require(_length != 0, "1: length-invalid");
-        require(_length == _datas.length , "1: array-length-invalid");
+    {
+        // TODO: store initial gas
 
-        string[] memory eventNames = new string[](_length);
-        bytes[] memory eventParams = new bytes[](_length);
+        require(_automation[msg.sender][_targetName], "3: array-length-invalid");
+        
+        string memory eventName;
+        bytes memory eventParam;
 
-        (bool isOk, address[] memory _targets) = connectors.isConnectors(_targetNames);
+        (bool isOk, address _target, uint baseGas) = connectors.isConnectors(_targetName);
 
         require(isOk, "1: not-connector");
 
-        for (uint i = 0; i < _length; i++) {
-            bytes memory response = spell(_targets[i], _datas[i]);
-            (eventNames[i], eventParams[i]) = decodeEvent(response);
-        }
+        bytes memory response = spell(_target, _data);
+        (eventName, eventParam) = decodeEvent(response);
 
-        emit LogCast(
+        emit LogCastAutomation(
             _origin,
             msg.sender,
             msg.value,
-            _targetNames,
-            _targets,
-            eventNames,
-            eventParams
+            _targetName,
+            _target,
+            eventName,
+            eventParam
         );
+
+        // TODO: store final gas
+        // TODO: pay the gas difference in desired token using Chainlink's price (with some base gas?)
     }
 }
