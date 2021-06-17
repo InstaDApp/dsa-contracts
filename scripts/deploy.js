@@ -2,16 +2,24 @@ const hre = require("hardhat");
 const { ethers } = hre;
 
 async function main() {
+    let INSTA_INDEX
     if (hre.network.name === "mainnet") {
       console.log(
         "\n\n Deploying Contracts to mainnet. Hit ctrl + c to abort"
       );
+      INSTA_INDEX = "0x2971AdFa57b20E5a416aE5a708A8655A9c74f723";
+    } else if (hre.network.name === "matic") {
+      console.log(
+        "\n\n Deploying Contracts to matic. Hit ctrl + c to abort"
+      );
+      INSTA_INDEX = "0xA9B99766E6C676Cf1975c0D3166F96C0848fF5ad";
     } else if (hre.network.name === "kovan") {
       console.log(
         "\n\n Deploying Contracts to kovan..."
       );
+    } else {
+      INSTA_INDEX = "0x2971AdFa57b20E5a416aE5a708A8655A9c74f723";
     }
-    const INSTA_INDEX = "0x2971AdFa57b20E5a416aE5a708A8655A9c74f723";
 
     const InstaConnectorsV2Impl = await ethers.getContractFactory("InstaConnectorsV2Impl");
     const instaConnectorsV2Impl = await InstaConnectorsV2Impl.deploy();
@@ -56,6 +64,12 @@ async function main() {
 
     console.log("InstaImplementationM1 deployed: ", instaAccountV2ImplM1.address);
 
+    const InstaImplementationM2 = await ethers.getContractFactory("InstaImplementationM2");
+    const instaAccountV2ImplM2 = await InstaImplementationM2.deploy(INSTA_INDEX, instaConnectorsV2.address, "0x2a1739D7F07d40e76852Ca8f0D82275Aa087992F");
+    await instaAccountV2ImplM2.deployed();
+
+    console.log("InstaImplementationM2 deployed: ", instaAccountV2ImplM2.address);
+
     if (hre.network.name === "mainnet" || hre.network.name === "kovan") {
       await hre.run("verify:verify", {
           address: instaConnectorsV2Impl.address,
@@ -92,6 +106,12 @@ async function main() {
         address: instaAccountV2ImplM1.address,
         constructorArguments: [INSTA_INDEX, instaConnectorsV2.address]
       })
+
+      await hre.run("verify:verify", {
+        address: instaAccountV2ImplM2.address,
+        constructorArguments: [INSTA_INDEX, instaConnectorsV2.address, "0x2a1739D7F07d40e76852Ca8f0D82275Aa087992F"]
+      })
+
 
       await hre.run("verify:verify", {
           address: instaAccountV2Proxy.address,

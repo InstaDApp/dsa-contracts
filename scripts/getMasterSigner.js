@@ -10,5 +10,11 @@ module.exports = async function () {
         params: [ masterAddress]
     })
 
-    return await ethers.provider.getSigner(masterAddress);
+    const [wallet0, wallet1, wallet2, wallet3] = await ethers.getSigners()
+    await wallet3.sendTransaction({
+        to: masterAddress,
+        value: ethers.utils.parseEther("10")
+    });
+
+    return await ethers.getSigner(masterAddress);
 };

@@ -26,7 +26,7 @@ interface CheckInterface {
     function isOk() external view returns (bool);
 }
 
-contract InstaImplementationM2 {
+contract InstaImplementationM2Test {
     address internal immutable instaIndex;
     // Connnectors Address.
     address public immutable connectorsM1;

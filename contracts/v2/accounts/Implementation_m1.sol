@@ -74,7 +74,7 @@ contract InstaImplementationM1 is Constants {
     /**
      * @dev This is the main function, Where all the different functions are called
      * from Smart Account.
-     * @param _targetNames Array of Connector address.
+     * @param _targetNames Array of Connector names.
      * @param _datas Array of Calldata.
     */
     function cast(
