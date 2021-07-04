@@ -29,6 +29,7 @@ contract Record is Constants {
 
     event LogEnableUser(address indexed user);
     event LogDisableUser(address indexed user);
+    event LogBetaMode(bool indexed beta);
 
     /**
      * @dev Check for Auth if enabled.
@@ -36,6 +37,13 @@ contract Record is Constants {
      */
     function isAuth(address user) public view returns (bool) {
         return _auth[user];
+    }
+
+    /**
+     * @dev Check if Beta mode is enabled or not
+     */
+    function isBeta() public view returns (bool) {
+        return _beta;
     }
 
     /**
@@ -62,6 +70,12 @@ contract Record is Constants {
         delete _auth[user];
         ListInterface(IndexInterface(instaIndex).list()).removeAuth(user);
         emit LogDisableUser(user);
+    }
+
+    function toggleBeta() public {
+        require(msg.sender == address(this), "not-self");
+        _beta = !_beta;
+        emit LogBetaMode(_beta);
     }
 
 }
