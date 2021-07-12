@@ -6,9 +6,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "hardhat test",
+    "test": "hardhat run scripts/run-tests.ts",
     "coverage": "hardhat coverage --testfiles 'test/core.test.js'",
-    "compile": "hardhat compile"
+    "compile": "hardhat compile",
+    "typechain": "hardhat typechain"
   },
   "repository": {
     "type": "git",
@@ -20,13 +21,22 @@
     "url": "https://github.com/InstaDApp/smart-account/issues"
   },
   "homepage": "https://github.com/InstaDApp/smart-account#readme",
-  "dependencies": {
+  "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.1",
     "@nomiclabs/hardhat-etherscan": "^2.1.1",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@nomiclabs/hardhat-web3": "^2.0.0",
     "@openzeppelin/contracts": "^3.4.1-solc-0.7",
+    "@openzeppelin/hardhat-upgrades": "^1.6.0",
+    "@openzeppelin/test-helpers": "^0.5.10",
     "@openzeppelin/upgrades": "^2.8.0",
+    "@tenderly/hardhat-tenderly": "^1.1.0-beta.4",
+    "@typechain/ethers-v5": "^7.0.1",
+    "@typechain/hardhat": "^2.1.2",
+    "@types/chai": "^4.2.21",
+    "@types/inquirer": "^7.3.3",
+    "@types/mocha": "^8.2.3",
+    "@types/node": "^16.3.1",
     "chai": "^4.2.0",
     "dotenv": "^7.0.0",
     "ethereum-waffle": "^3.2.1",
@@ -35,21 +45,15 @@
     "hardhat": "^2.4.0",
     "hardhat-deploy": "^0.7.0-beta.44",
     "hardhat-deploy-ethers": "^0.3.0-beta.7",
+    "hardhat-gas-reporter": "^1.0.4",
+    "inquirer": "^8.1.1",
     "replace-in-file": "^5.0.2",
     "solc": "^0.6.12",
+    "solidity-coverage": "^0.7.14",
+    "ts-generator": "^0.1.1",
+    "ts-node": "^8.10.2",
+    "typechain": "^5.1.1",
+    "typescript": "^4.3.5",
     "web3-abi-helper": "^4.1.0"
-  },
-  "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.1",
-    "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "@openzeppelin/hardhat-upgrades": "^1.6.0",
-    "@openzeppelin/test-helpers": "^0.5.10",
-    "@tenderly/hardhat-tenderly": "^1.1.0-beta.4",
-    "chai": "^4.2.0",
-    "ethereum-waffle": "^3.2.1",
-    "ethers": "^5.0.26",
-    "hardhat": "^2.0.8",
-    "hardhat-gas-reporter": "^1.0.4",
-    "solidity-coverage": "^0.7.14"
   }
 }
