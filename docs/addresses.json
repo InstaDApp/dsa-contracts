@@ -15,7 +15,8 @@
                 "InstaConnectorsV2": "0x97b0B3A8bDeFE8cB9563a3c610019Ad10DB8aD11",
                 "InstaImplementations": "0xCBA828153d3a85b30B5b912e1f2daCac5816aE9D",
                 "InstaDefaultImplementation": "0x28aDcDC02Ca7B3EDf11924102726066AA0fA7010",
-                "InstaImplementationM1": "0x8a3462A50e1a9Fe8c9e7d9023CAcbD9a98D90021"
+                "InstaImplementationM1": "0x8a3462A50e1a9Fe8c9e7d9023CAcbD9a98D90021",
+                "InstaChiefTimelockContract": "0xb3e586BCE929312e8B0685E2c12c1d6dbbcdc370"
             }
         }
     },
